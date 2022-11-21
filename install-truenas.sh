@@ -10,7 +10,7 @@ PV_LOGIN="privatvpn.login"
 SERVER_LIST_URL="https://privatevpn.com/serverlist/"
 SERVER_NAME="se-sto.pvdata.host"
 PV_CIPHER="AES-128-CBC"
-PV_AUTH="SHA256"
+PV_AUTH_ALG="SHA256"
 PV_TLS_KEY=$(cat <<-END
 -----BEGIN OpenVPN Static key V1-----
 f035a3acaeffb5aedb5bc920bca26ca7
@@ -179,7 +179,7 @@ $PV_OPTIONS
 # Crypto
 data-ciphers $PV_CIPHER:AES-256-CBC
 data-ciphers-fallback $PV_CIPHER
-auth $PV_AUTH
+auth $PV_AUTH_ALG
 auth-user-pass $INSTALL_PATH/$PV_LOGIN
 script-security 2
 up /etc/openvpn/update-resolv-conf
@@ -217,7 +217,7 @@ cp /data/freenas-v1.db /data/freenas-v1.db.bak
 # add the client db entry
 printf " * Adding PrivateVPN Client configuration into the configuration database.\n"
 
-sqlite3 /data/freenas-v1.db "insert into services_openvpnclient (port, protocol, device_type, nobind, authentication_algorithm, tls_crypt_auth, cipher, compression, additional_parameters, remote) VALUES(1194,'UDP','TUN',1, '$PV_AUTH', '$PV_TLS_KEY', '$PV_CIPHER', 'LZO', '$PV_OPTIONS', '$SERVER_NAME');"
+sqlite3 /data/freenas-v1.db "insert into services_openvpnclient (port, protocol, device_type, nobind, authentication_algorithm, tls_crypt_auth, cipher, compression, additional_parameters, remote) VALUES(1194,'UDP','TUN',1, '$PV_AUTH_ALG', '$PV_TLS_KEY', '$PV_CIPHER', 'LZO', '$PV_OPTIONS', '$SERVER_NAME');"
 
 printf " * Starting OpenVPN client. \n"
 systemctl start openvpn-client@client.service
