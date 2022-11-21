@@ -177,7 +177,7 @@ dev tun
 $PV_OPTIONS
 
 # Crypto
-data-ciphers $PV_CIPHER:AES-256-CBC
+data-ciphers $PV_CIPHER:AES-256-CBC:AES-128-GCM
 data-ciphers-fallback $PV_CIPHER
 auth $PV_AUTH_ALG
 auth-user-pass $INSTALL_PATH/$PV_LOGIN
