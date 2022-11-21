@@ -10,7 +10,7 @@ PV_LOGIN="privatevpn.login"
 SERVER_LIST_URL="https://privatevpn.com/serverlist/"
 SERVER_NAME="se-sto.pvdata.host"
 PV_FALLBACK_CIPHER="AES-128-CBC"
-PV_DATA_CIPHER="$PV_CIPHER:AES-256-CBC:AES-128-GCM"
+PV_DATA_CIPHER="$PV_FALLBACK_CIPHER:AES-256-CBC:AES-128-GCM"
 PV_AUTH_ALG="SHA256"
 PV_TLS_KEY=$(cat <<-END
 -----BEGIN OpenVPN Static key V1-----
