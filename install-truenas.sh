@@ -214,13 +214,10 @@ EOF
 printf " * Backing up the truenas database.\n"
 cp /data/freenas-v1.db /data/freenas-v1.db.bak
 
-# get the ca id
-PV_CA_ID=$(sqlite3 /data/freenas-v1.db "select id from system_certificateauthority where cert_name like '%vpn%';")
-
 # add the client db entry
 printf " * Adding PrivateVPN Client configuration into the configuration database.\n"
 
-sqlite3 /data/freenas-v1.db "insert into services_openvpnclient (port, protocol, device_type, nobind, authentication_algorithm, tls_crypt_auth, cipher, compression, additional_parameters, root_ca_id, remote) VALUES(1194,'UDP','TUN',1, '$PV_AUTH', '$PV_TLS_KEY', '$PV_CIPHER', 'LZO', '$PV_OPTIONS', '$PV_CA_ID', '$SERVER_NAME');"
+sqlite3 /data/freenas-v1.db "insert into services_openvpnclient (port, protocol, device_type, nobind, authentication_algorithm, tls_crypt_auth, cipher, compression, additional_parameters, remote) VALUES(1194,'UDP','TUN',1, '$PV_AUTH', '$PV_TLS_KEY', '$PV_CIPHER', 'LZO', '$PV_OPTIONS', '$SERVER_NAME');"
 
 printf " * Starting OpenVPN client. \n"
 systemctl start openvpn-client@client.service
