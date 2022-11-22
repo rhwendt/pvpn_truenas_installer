@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION="0.3a"
+VERSION="0.4"
 
 #SETTINGS
 INSTALL_PATH="~/openvpn"
@@ -101,19 +101,6 @@ select_server_from_list () {
 ###############################################################################
 
 printf "PrivateVPN Linux OpenVPN Installer v%s\n" "$VERSION"
-printf " * Checking for OpenVPN - "
-if [ -x "$OPENVPN_BIN" ]; then
-  printf "OK\n"
-else
-  printf "Not Found\n - Unable to find OpenVPN, enter PATH where OpenVPN bin is installed.\n [PATH]: "
-  read -e OPENVPN_BIN
-fi
-
-if [ ! -x "$OPENVPN_BIN" ]; then
-  printf " - ERROR! Unable to find OpenVPN, please install it before running this script.\n"
-  exit
-fi
-
 printf " * Enter login details for PrivateVPN\n - [username]: "
 read -e USERNAME
 printf " - [password]: "
