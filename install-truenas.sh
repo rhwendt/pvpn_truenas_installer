@@ -160,16 +160,13 @@ dev tun
 $PV_OPTIONS
 
 # Crypto
-data-ciphers $PV_DATA_CIPHER
-data-ciphers-fallback $PV_FALLBACK_CIPHER
+cipher $PV_FALLBACK_CIPHER
 auth $PV_AUTH_ALG
-auth-user-pass $INSTALL_PATH/$PV_LOGIN
-script-security 2
-up /etc/openvpn/update-resolv-conf
-down /etc/openvpn/update-resolv-conf
 
 # CA
-ca $INSTALL_PATH/$PV_CA_FILE
+<ca>
+$PV_CA_CERT
+</ca>
 
 <tls-auth>
 $PV_TLS_KEY
