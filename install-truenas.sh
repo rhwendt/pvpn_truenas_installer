@@ -150,7 +150,7 @@ fi
 
 # Restrict the access to the conf file
 touch "$INSTALL_PATH/$PV_CONF"
-chmod 0600 "$INSTALL_PATH/$PV_CONF"
+chmod 0640 "$INSTALL_PATH/$PV_CONF"
 cat << EOF > "$INSTALL_PATH/$PV_CONF"
 remote $SERVER_NAME 1194 udp
 nobind
@@ -179,7 +179,7 @@ EOF
 
 # Restrict the access to the auth-user-pass file
 touch "$INSTALL_PATH/$PV_LOGIN"
-chmod 0600 "$INSTALL_PATH/$PV_LOGIN"
+chmod 0640 "$INSTALL_PATH/$PV_LOGIN"
 cat << EOF > "$INSTALL_PATH/$PV_LOGIN"
 $USERNAME
 $PASSWORD
@@ -187,7 +187,7 @@ EOF
 
 # Restrict the access to the privatevpn ca cert
 touch "$INSTALL_PATH/$PV_CA_FILE"
-chmod 0600 "$INSTALL_PATH/$PV_CA_FILE"
+chmod 0640 "$INSTALL_PATH/$PV_CA_FILE"
 cat << EOF > "$INSTALL_PATH/$PV_CA_FILE"
 $PV_CA_CERT
 EOF
