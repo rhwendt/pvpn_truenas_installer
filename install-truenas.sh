@@ -2,7 +2,7 @@
 VERSION="0.4"
 
 #SETTINGS
-INSTALL_PATH="~/openvpn"
+INSTALL_PATH="$HOME/openvpn"
 PV_CONF="client.conf"
 PV_CA_FILE="privatevpn_ca.crt"
 PV_LOGIN="privatevpn.login"
@@ -107,7 +107,7 @@ printf " - [password]: "
 read -e PASSWORD
 
 
-printf " * Installing conf to default location (~/openvpn), write c to edit installpath.\n"
+printf " * Installing conf to default location ($HOME/openvpn), write c to edit installpath.\n"
 
 while true; do
    printf " - Continue [yes/no/c] "
