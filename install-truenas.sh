@@ -2,8 +2,7 @@
 VERSION="0.3a"
 
 #SETTINGS
-OPENVPN_BIN="/usr/sbin/openvpn"
-INSTALL_PATH="/etc/openvpn/client"
+INSTALL_PATH="~/openvpn"
 PV_CONF="client.conf"
 PV_CA_FILE="privatevpn_ca.crt"
 PV_LOGIN="privatevpn.login"
@@ -70,7 +69,10 @@ client
 comp-lzo
 persist-key
 persist-tun
-verb 3
+auth-nocache
+connection retry -1
+route-delay
+keepalive 3 10
 END
 )
 
@@ -112,20 +114,13 @@ if [ ! -x "$OPENVPN_BIN" ]; then
   exit
 fi
 
-# Installing the conf may require root (it does for the default location)
-# and installing the $PV_SCR always requires root.
-if [ "$(id -u)" -ne 0 ]; then
-  printf " - ERROR! The install needs to be run as root/sudo.\n"
-  exit
-fi
-
 printf " * Enter login details for PrivateVPN\n - [username]: "
 read -e USERNAME
 printf " - [password]: "
 read -e PASSWORD
 
 
-printf " * Installing conf to default location (/etc/openvpn/client), write c to edit installpath.\n"
+printf " * Installing conf to default location (~/openvpn), write c to edit installpath.\n"
 
 while true; do
    printf " - Continue [yes/no/c] "
@@ -209,18 +204,5 @@ chmod 0600 "$INSTALL_PATH/$PV_CA_FILE"
 cat << EOF > "$INSTALL_PATH/$PV_CA_FILE"
 $PV_CA_CERT
 EOF
-
-# TRUENAS STUFF
-# backup the database
-printf " * Backing up the truenas database.\n"
-cp /data/freenas-v1.db /data/freenas-v1.db.bak
-
-# add the client db entry
-printf " * Adding PrivateVPN Client configuration into the configuration database.\n"
-
-sqlite3 /data/freenas-v1.db "insert into services_openvpnclient (port, protocol, device_type, nobind, authentication_algorithm, tls_crypt_auth, cipher, compression, additional_parameters, remote) VALUES(1194,'UDP','TUN',1, '$PV_AUTH_ALG', '$PV_TLS_KEY', '$PV_FALLBACK_CIPHER', 'LZO', '$PV_OPTIONS', '$SERVER_NAME');"
-
-printf " * Starting OpenVPN client. \n"
-systemctl start openvpn-client@client.service
 
 printf " * Install complete.\n"
